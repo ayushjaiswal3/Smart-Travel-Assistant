@@ -2,9 +2,14 @@
 
 A responsive web application that helps users locate themselves on an interactive map, warns about poor network connectivity, and performs background optimization — ideal for travelers, delivery agents, or on-the-go users.
 
+---
+
 ## 🚀 Live Demo
 
-🔗 [View on GitHub Pages](file:///C:/Users/My/Desktop/BackgroundTasksApI/task.html)
+🔗 [View on GitHub Pages](file:///C:/Users/My/Desktop/BackgroundTasksApI/task.html)  
+> ⚠️ NOTE: This link will only work on your local machine. After deployment, update it with your GitHub Pages or Netlify link.
+
+---
 
 ## 🧠 Key Features
 
@@ -13,6 +18,8 @@ A responsive web application that helps users locate themselves on an interactiv
 - 🕒 **Background Tasks** — Loads POI data in the background without blocking the UI
 - 👁️ **Intersection Observer** — Detects if map is on screen to pause/resume updates
 - 🌐 **Network Info** — Alerts if the user is on a slow connection
+
+---
 
 ## 🔧 Tech Stack
 
@@ -24,10 +31,14 @@ A responsive web application that helps users locate themselves on an interactiv
   - Intersection Observer API
   - Network Information API
 
-## 📸 Screenshots
+---
 
-![Smart Travel Assistant Screenshot](<img width="1918" height="912" alt="TAP_Assignment" src="https://github.com/user-attachments/assets/bda774b4-534b-4c3b-be35-f42d79d9bc47" />
-) <!-- Add your own screenshot if you want -->
+## 📸 Screenshot
 
-## 📁 Folder Structure
+![Smart Travel Assistant Screenshot](https://github.com/user-attachments/assets/bda774b4-534b-4c3b-be35-f42d79d9bc47)
+
+> 📌 Replace the above image URL with your uploaded screenshot link or place a local file like `screenshot.png` in your repo.
+
+---
+
 

@@ -26,7 +26,7 @@ A responsive web application that helps users locate themselves on an interactiv
 
 ## 📸 Screenshots
 
-![Smart Travel Assistant Screenshot](<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/1c1be5db-c1ad-49ea-893e-9c862a9b0959" />
+![Smart Travel Assistant Screenshot](<img width="1918" height="912" alt="TAP_Assignment" src="https://github.com/user-attachments/assets/bda774b4-534b-4c3b-be35-f42d79d9bc47" />
 ) <!-- Add your own screenshot if you want -->
 
 ## 📁 Folder Structure

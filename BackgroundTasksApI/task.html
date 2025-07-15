@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Travel Assistant</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a73e8;
+    }
+
+    #container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #locate-btn {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    #locate-btn:hover {
+      background-color: #0f5dc1;
+    }
+
+    #location {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    #map {
+      height: 350px;
+      margin-top: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #status {
+      margin-top: 1rem;
+      color: #0f9d58;
+      font-weight: 500;
+    }
+
+    #warning {
+      margin-top: 0.5rem;
+      color: #d93025;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Smart Travel Assistant</h1>
+    <button id="locate-btn">📍 Get My Location</button>
+    <div id="location"></div>
+    <div id="map"></div>
+    <div id="status">Idle background loading...</div>
+    <div id="warning"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const locationDiv = document.getElementById("location");
+    const mapDiv = document.getElementById("map");
+    const warningDiv = document.getElementById("warning");
+    let map;
+
+    
+    document.getElementById("locate-btn").addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const { latitude, longitude } = position.coords;
+          locationDiv.innerText = `📌 Latitude: ${latitude.toFixed(4)}, Longitude: ${longitude.toFixed(4)}`;
+
+         
+          if (!map) {
+            map = L.map('map').setView([latitude, longitude], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+          } else {
+            map.setView([latitude, longitude], 13);
+          }
+
+          
+          L.marker([latitude, longitude]).addTo(map)
+            .bindPopup('📍 You are here').openPopup();
+        });
+      } else {
+        locationDiv.innerText = "Geolocation is not supported by this browser.";
+      }
+    });
+
+ 
+    const backgroundTasks = Array.from({ length: 100 }, (_, i) => ({ id: i }));
+
+    function processBackgroundTasks(deadline) {
+      while ((deadline.timeRemaining() > 0 || deadline.didTimeout) && backgroundTasks.length) {
+        const task = backgroundTasks.shift();
+        console.log(`Processing background POI ${task.id}`);
+      }
+      if (backgroundTasks.length > 0) {
+        requestIdleCallback(processBackgroundTasks, { timeout: 2000 });
+      }
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(processBackgroundTasks);
+    }
+
+   
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          document.getElementById('status').innerText = "🛑 Map is out of view - updates paused.";
+        } else {
+          document.getElementById('status').innerText = "✅ Map is visible - background loading...";
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(mapDiv);
+
+  
+    if ('connection' in navigator) {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (connection.downlink < 1.5 || connection.effectiveType.includes("2g")) {
+        warningDiv.innerText = "⚠️ Slow connection detected. Map features may be limited.";
+      }
+    }
+  </script>
+</body>
+</html>
